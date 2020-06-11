@@ -32,7 +32,7 @@ services:
     ports:
       - "3003:3003"
     environment:
-      - port=3003
+      - PORT=3003
       - MONGO_DB_URI=mongodb://teamsuperman:teamsuperman@mongo:27017/admin?ssl=false
       - JWT=teamsuperman
     depends_on:
