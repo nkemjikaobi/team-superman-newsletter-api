@@ -1,47 +1,44 @@
 version: '3'
 services:
-  EmailingService:
-    build: './EmailingService'
+  emailing:
+    image: emailing
+    build: EmailingService/.
     ports:
-      - "3000:7000"
-
-  NewsCompositionService:
-    build: './NewsCompositionService'
-    ports:
-      - "3001:8000"
-    depends_on: 
-      - db
+      - "3000:3000"
     environment:
-      - MONGO_DB_URI=mongodb://db/microservices
-
-  NewsPageService:
-    build: './NewsPageService'
-    ports:
-      - "3002:5000"
-
-  SubscriptionService:
-    build: './SubscriptionService'
-    ports:
-      - "3003:4000"
-    depends_on: 
-      - db
-    environment:
-      - MONGO_DB_URI=mongodb://db/microservices
-  
-  db:
-    image: mongo
-    ports:
-      - "27017:27017"
-
-  nginx:
-    image: nginx:latest
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./web/public:/srv/www/static
-      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - port=3000
     depends_on:
-      - web
-      - books
-      - search
-      - videos
+      - mongo
+  newscomposition:
+    image: newscomposition
+    build: NewsCompositionService/.
+    ports:
+      - "3001:3001"
+    environment:
+      - port=3001
+      - MONGO_DB_URI=mongodb://teamsuperman:teamsuperman@mongo:27017/admin?ssl=false
+    depends_on:
+      - mongo
+  newspage:
+    image: newspage
+    build: NewsPageService/.
+    ports:
+      - "3002:3002"
+    environment:
+      - port=3002
+  subscription:
+    image: subscription
+    build: SubscriptionService/.
+    ports:
+      - "3003:3003"
+    environment:
+      - port=3003
+      - MONGO_DB_URI=mongodb://teamsuperman:teamsuperman@mongo:27017/admin?ssl=false
+      - JWT=teamsuperman
+    depends_on:
+      - mongo
+  mongo:
+    image: "mongo:latest"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=teamsuperman
+      - MONGO_INITDB_ROOT_PASSWORD=teamsuperman
