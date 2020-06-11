@@ -1,4 +1,5 @@
 const app = require("./src/app");
+const port=process.env.port || 8000;
 
 const { DB_URI } = require("./src/config/config")
 const mongoose = require("mongoose");
@@ -13,7 +14,7 @@ mongoose.connect(DB_URI)
 });
 
 
-app.listen(8000, () => {
-  console.log("running on port 8000");
+app.listen(port, () => {
+  console.log(`running on port ${port}`);
   console.log("--------------------------");
 });
