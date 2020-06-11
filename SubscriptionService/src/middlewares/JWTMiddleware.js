@@ -1,4 +1,4 @@
-import expressJWT from 'express-jwt';
+const expressJWT =require('express-jwt');
 
 const checkToken = expressJWT({
   secret: process.env.JWT || 'SomeJuicySecretSetOnEnv'
@@ -22,4 +22,4 @@ class JWT {
   }
 }
 
-export default JWT;
+module.exports = JWT;
